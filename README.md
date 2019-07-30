@@ -9,6 +9,17 @@
 
 The Service UI (SUI), previously Self Service UI (SSUI), for the [ManageIQ](http://github.com/ManageIQ/manageiq) project.
 
+## Forked project
+
+This fork of the official manageiq-ui-service app aimes at adding support for SSO (SAML, OIDC) user authentication in the Service UI (SUI). 
+
+To work properly, it must be used alongside these other forks of official ManageIQ plugins / projects : 
+- ManagegIQ Api plugin : https://github.com/Plemi/manageiq-api (which is based on this PR https://github.com/ManageIQ/manageiq/pull/14959/files by Abellotti)
+- Core ManageIQ app : https://github.com/Plemi/manageiq (which has a modified Gemfile to install the forked API plugin version)
+
+In order to use this forked project in a docker context, it is also advised to rely on this fork of manageiq-pods project to build proper docker images :
+- https://github.com/Plemi/manageiq-pods
+
 ## Documentation
 * [Developer Setup](docs/developer_setup.md) - *_For getting started_*
 * [Code Tour](docs/code_tour.md) - *_For codebase awareness_*

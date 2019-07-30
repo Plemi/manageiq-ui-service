@@ -1,4 +1,30 @@
-<div class="login-pf">
+<div class="login-pf" ng-if="vm.authMode.oidc_enabled || vm.authMode.saml_enabled">
+  <img class="img-top" src="./images/bg-login.png" alt="top-corner"/>
+  <img class="img-bottom" src="./images/bg-login-2.png" alt=" bottom-corner"/>
+  <span id="badge">
+    <img class="logo" src="./images/login-screen-logo.png" alt="Logo"/>
+  </span>
+  <div class="container">
+    <div id="brand">
+      <!-- <img ng-src="{{ vm.brandInfo.brand }}" alt="Brand" /> -->
+      <h1 translate>Bienvenue sur le <b>Portail Nuage</b> !</h1>
+    </div>
+    <div class="row">
+      <div class="col-sm-8 col-md-6 col-lg-5">
+        <pf-notification-list></pf-notification-list>
+        <h3 translate>Authentifiez-vous avec votre compte LDAP :</h3>
+        <button type="button" class="btn btn-primary" ng-click="vm.authMode.oidc_enabled ? vm.initiateOidcLogin() : vm.initiateSamlLogin()" translate>Interface utilisateur</button>
+        &nbsp; | &nbsp;
+        <a href ng-click="vm.initiateAdminLogin()" translate>Interface administrateur</a>
+
+      </div>
+      <div class="col-sm-4 col-md-6 col-lg-7">
+        <p ng-bind-html="vm.text.message"></p>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="login-pf" ng-if="!vm.authMode.oidc_enabled && !vm.authMode.saml_enabled">
   <img class="img-top" src="./images/bg-login.png" alt="top-corner"/>
   <img class="img-bottom" src="./images/bg-login-2.png" alt=" bottom-corner"/>
   <span id="badge">
