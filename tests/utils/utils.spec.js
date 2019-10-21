@@ -1,5 +1,3 @@
-/* eslint-disable no-unused-vars */
-
 function eventFire (el, etype) {
   if (angular.isFunction(el.trigger)) {
     el.trigger(etype)
@@ -10,8 +8,4 @@ function eventFire (el, etype) {
     evObj.initEvent(etype, true, false)
     el.dispatchEvent(evObj)
   }
-}
-
-function findIn (element, selector) {
-  return angular.element(element[0].querySelector(selector))
 }

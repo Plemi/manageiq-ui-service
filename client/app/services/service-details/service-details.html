@@ -17,12 +17,14 @@
           ng-if="vm.hasCustomButtons(vm.service) <= 3 && vm.hasCustomButtons(vm.service) > 0"
           class="custom-dropdown pull-left"
           service-id="vm.service.id"
-          custom-actions="vm.service.custom_actions">
+          custom-actions="vm.service.custom_actions"
+          display-for="['both', 'single']">
         </custom-button>
         <custom-button-menu
           service-id="vm.service.id"
           ng-if="vm.hasCustomButtons(vm.service) > 3"
-          custom-actions="vm.service.custom_actions">
+          custom-actions="vm.service.custom_actions"
+          display-for="['both', 'single']">
         </custom-button-menu>
         <custom-dropdown
           class="custom-dropdown pull-left"
@@ -301,9 +303,18 @@
                                                 uib-tooltip="{{item.supported_consoles.html5.message}}"
                                                 tooltip-placement="bottom"
                                                 ng-class="{'disabled': !item.supported_consoles.html5.enabled || !$ctrl.customScope.permissions.html5_console}"
-                                                ng-click="$ctrl.customScope.openConsole(item)">
+                                                ng-click="$ctrl.customScope.openConsole(item, 'html5')">
                                                 <a href="#" translate>VM HTML5 Console</a>
                                             </li>
+                                            <li ng-if="item.supported_consoles.vmrc.visible || item.supported_consoles.vmrc.message"
+                                                role="menuitem"
+                                                uib-tooltip="{{item.supported_consoles.vmrc.message}}"
+                                                tooltip-placement="bottom"
+                                                ng-class="{'disabled': !item.supported_consoles.vmrc.enabled || !$ctrl.customScope.permissions.vmrc_console}"
+                                                ng-click="$ctrl.customScope.openConsole(item, 'vmrc')">
+                                                <a href="#" translate>VM VMRC Console</a>
+                                            </li>
+
                                             <li ng-if="item.supported_consoles.cockpit.visible || item.supported_consoles.cockpit.message"
                                                 role="menuitem"
                                                 uib-tooltip="{{item.supported_consoles.cockpit.message}}"

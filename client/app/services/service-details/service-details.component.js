@@ -1,4 +1,4 @@
-/* eslint camelcase: "off", comma-dangle: 0 */
+// eslint camelcase: "off"
 import './_service-details.sass'
 import templateUrl from './service-details.html'
 
@@ -385,9 +385,9 @@ function ComponentController ($stateParams, $state, $window, CollectionsApi, Eve
     vm.genericObjectsTypeViewState[object.id] = object.isExpanded
   }
 
-  function openConsole (item) {
-    if (item.supported_consoles.html5.visible && item.supported_consoles.html5.enabled) {
-      Consoles.open(item.id)
+  function openConsole (item, protocol) {
+    if ((item.supported_consoles.html5.visible && item.supported_consoles.html5.enabled) || (item.supported_consoles.vmrc.visible && item.supported_consoles.vmrc.enabled)) {
+      Consoles.open(item.id, protocol)
     }
   }
 

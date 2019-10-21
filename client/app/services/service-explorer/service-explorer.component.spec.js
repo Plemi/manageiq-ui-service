@@ -32,6 +32,7 @@ describe('Component: serviceExplorer', () => {
       serviceSuspend: false,
       cockpit: false,
       html5_console: false,
+      vmrc_console: false,
       viewSnapshots: false,
       vm_snapshot_show_list: false,
       vm_snapshot_add: false,
@@ -119,11 +120,5 @@ describe('Component: serviceExplorer', () => {
     expect(isAnsible).to.be.true
     const isNotAnsible = ctrl.isAnsibleService({type: 'vm'})
     expect(isNotAnsible).to.be.false
-  })
-
-  it('should change view type', () => {
-    expect(ctrl.viewType).to.equal('listView')
-    ctrl.viewSelected('tableView')
-    expect(ctrl.viewType).to.equal('tableView')
   })
 })
