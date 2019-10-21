@@ -5,7 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 
 
-## Hammer-8
+## Ivanchuk-1
+
+### Added
+- Add support for the VMRC remote consoles for VMware VMs [(#1570)](https://github.com/ManageIQ/manageiq-ui-service/pull/1570) 
+- Update the VM remote console button to the new unified HTML5 console [(#1553)](https://github.com/ManageIQ/manageiq-ui-service/pull/1553)
+- Support custom favicons [(#1521)](https://github.com/ManageIQ/manageiq-ui-service/pull/1521)
+
+### Fixed
+- Service detail screen - don't run automate methods [(#1551)](https://github.com/ManageIQ/manageiq-ui-service/pull/1551)
+- Suspended power_state is "suspended" [(#1524)](https://github.com/ManageIQ/manageiq-ui-service/pull/1524)
+- Timeline - remove onResize handler when destroying timeline [(#1523)](https://github.com/ManageIQ/manageiq-ui-service/pull/1523)
+
+## Hammer-8 - Released 2019-07-02
 
 ### Fixed
 - VM custom button dialog - use the VM instead of the parent service [(#1542)](https://github.com/ManageIQ/manageiq-ui-service/pull/1542)
@@ -14,15 +26,6 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 
 ### Added
 - Login/nav brand and logo are set by api [(#1513)](https://github.com/ManageIQ/manageiq-ui-service/pull/1513)
-
-## Unreleased as of Sprint 104 ending 2019-02-04
-
-### Added
-- Support custom favicons [(#1521)](https://github.com/ManageIQ/manageiq-ui-service/pull/1521)
-
-### Fixed
-- Suspended power_state is "suspended" [(#1524)](https://github.com/ManageIQ/manageiq-ui-service/pull/1524)
-- Timeline - remove onResize handler when destroying timeline [(#1523)](https://github.com/ManageIQ/manageiq-ui-service/pull/1523)
 
 ## Hammer-1 - Released 2019-01-15
 
