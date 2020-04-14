@@ -33,6 +33,7 @@ function StateController ($window, $state, Text, RBAC, API_LOGIN, API_PASSWORD, 
     password: API_PASSWORD
   }
   vm.onSubmit = onSubmit
+  vm.spinner = false
 
   if ($window.location.href.includes('?timeout')) {
     Notifications.message('danger', '', __('Your session has timed out.'), true)
@@ -51,8 +52,8 @@ function StateController ($window, $state, Text, RBAC, API_LOGIN, API_PASSWORD, 
   }
 
   function onSubmit () {
-    Session.timeoutNotified = false
     Session.privilegesError = false
+    vm.spinner = true
 
     return AuthenticationApi.login(vm.credentials.login, vm.credentials.password)
     .then(Session.loadUser)
@@ -68,6 +69,7 @@ function StateController ($window, $state, Text, RBAC, API_LOGIN, API_PASSWORD, 
         if (angular.isDefined($rootScope.notifications) && $rootScope.notifications.data.length > 0) {
           $rootScope.notifications.data.splice(0, $rootScope.notifications.data.length)
         }
+        // the starting screen logic lives in autohorization.config in changeStart
         $window.location.href = $state.href('dashboard')
       } else {
         Session.privilegesError = true
@@ -76,13 +78,26 @@ function StateController ($window, $state, Text, RBAC, API_LOGIN, API_PASSWORD, 
       }
     })
     .catch((response) => {
+      let message = __('Login failed.');
+      let error = response.data && response.data.error && response.data.error.message;
+
       if (response.status === 401) {
-        vm.credentials.login = ''
-        vm.credentials.password = ''
-        const message = response.data.error.message
-        Notifications.message('danger', '', __('Login failed, possibly invalid credentials. ') + `(${message})`, false)
+        vm.credentials.login = '';
+        vm.credentials.password = '';
+
+        message = __('Login failed, possibly invalid credentials.');
       }
-      Session.destroy()
+
+      if (!error && response.status >= 300) {
+        error = `${response.status} ${response.statusText}`;
+      }
+
+      Notifications.message('danger', '', error ? `${message} (${error})` : message, false);
+
+      Session.destroy();
+    })
+    .then(() => {
+      vm.spinner = false
     })
   }
 

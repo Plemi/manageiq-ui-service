@@ -1,7 +1,7 @@
 /* eslint camelcase: "off" */
 import languageFile from '../../gettext/json/available_languages.json'
 /** @ngInject */
-export function LanguageFactory ($http, $q, $log, $sessionStorage, Session, $window, gettextCatalog, lodash) {
+export function LanguageFactory ($http, $q, $log, $localStorage, Session, $window, gettextCatalog, lodash) {
   var availableAvailable = $q.defer()
   var service = {
     available: {
@@ -32,22 +32,22 @@ export function LanguageFactory ($http, $q, $log, $sessionStorage, Session, $win
   }
 
   // returns a list of user's preferred languages, in order
-  function browser () {
+  function browser (navigator = $window.navigator) {
     var ary = []
 
     // the standard
-    if (lodash.isArray($window.navigator.languages)) {
-      ary = lodash.slice($window.navigator.languages)
+    if (lodash.isArray(navigator.languages)) {
+      ary = lodash.slice(navigator.languages)
     }
 
     // IE 11 and older browers
-    if ($window.navigator.language) {
-      ary.push($window.navigator.language)
+    if (navigator.language) {
+      ary.push(navigator.language)
     }
 
     // IE<11
-    if ($window.navigator.userLanguage) {
-      ary.push($window.navigator.userLanguage)
+    if (navigator.userLanguage) {
+      ary.push(navigator.userLanguage)
     }
 
     return lodash.uniq(ary)
@@ -78,9 +78,9 @@ export function LanguageFactory ($http, $q, $log, $sessionStorage, Session, $win
   function onLogin (data) {
     setUser(data)
     var code = 'en'
-    if ($sessionStorage.loginLanguage) {
-      code = $sessionStorage.loginLanguage
-      delete $sessionStorage.loginLanguage
+    if ($localStorage.loginLanguage) {
+      code = $localStorage.loginLanguage
+      delete $localStorage.loginLanguage
       save(code)
       Session.updateUserSession({ settings: { locale: code } })
     } else {
@@ -162,7 +162,7 @@ export function LanguageFactory ($http, $q, $log, $sessionStorage, Session, $win
 
   function setLoginLanguage (code) {
     const languageCode = service.match(service.available, code)
-    $sessionStorage.loginLanguage = languageCode
+    $localStorage.loginLanguage = languageCode
     service.setLocale(code)
   }
 

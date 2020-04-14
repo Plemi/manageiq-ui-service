@@ -44,13 +44,15 @@ export function authConfig ($httpProvider) {
 }
 
 /** @ngInject */
-export function authInit ($rootScope, $state, $log, Session, $sessionStorage, Language, $window, RBAC, ActionCable) {
+export function authInit ($rootScope, $state, $log, Session, $localStorage, Language, $window, RBAC, ActionCable) {
   $rootScope.$on('$stateChangeStart', changeStart)
   $rootScope.$on('$stateChangeError', changeError)
   $rootScope.$on('$stateChangeSuccess', changeSuccess)
 
-  $sessionStorage.$sync()  // needed when called right on reload
-  if ($sessionStorage.token) {
+  // needed when called right on reload
+  $localStorage.$sync();
+
+  if ($localStorage.token) {
     syncSession()
   }
 
@@ -82,34 +84,34 @@ export function authInit ($rootScope, $state, $log, Session, $sessionStorage, La
 
     // user is required and session not active - not going anywhere right away
     event.preventDefault()
-    $sessionStorage.$sync()  // needed when called right on reload
-    if (!$sessionStorage.token) {
+
+    // needed when called right on reload
+    $localStorage.$sync();
+
+    if (! $localStorage.token) {
       // no saved token, go directly to login
       $state.transitionTo('login')
-
       return
     }
+
     syncSession()
     .then(rbacReloadOrLogin(toState, toParams))
     .catch(badUser)
   }
 
   function syncSession () {
-    return new Promise(function (resolve, reject) {
-      // trying saved token..
-      Session.setAuthToken($sessionStorage.token)
-      Session.setGroup($sessionStorage.miqGroup)
+    // trying saved token..
+    Session.setAuthToken($localStorage.token)
+    Session.setGroup($localStorage.miqGroup)
 
-      Session.loadUser()
-      .then(function (response) {
-        if (angular.isDefined(response)) {
-          Language.onReload(response)
-          RBAC.setRole(response.identity.role)
-        }
-        resolve()
-      })
-      .catch(badUser)
+    return Session.loadUser()
+    .then(function (response) {
+      if (angular.isDefined(response)) {
+        Language.onReload(response)
+        RBAC.setRole(response.identity.role)
+      }
     })
+    .catch(badUser)
   }
 
   function rbacReloadOrLogin (toState, toParams) {
