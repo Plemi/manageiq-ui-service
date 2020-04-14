@@ -1,4 +1,4 @@
-/* eslint camelcase: "off", comma-dangle: 0 */
+// eslint camelcase: "off"
 import '../../../assets/sass/_explorer.sass'
 import templateUrl from './service-explorer.html'
 
@@ -37,7 +37,6 @@ function ComponentController ($state, ServicesState, Language, ListView, Chargeb
       limitOptions: [5, 10, 20, 50, 100, 200, 500, 1000],
       // Functions
       resolveServices: resolveServices,
-      viewSelected: viewSelected,
       actionEnabled: actionEnabled,
       updateMenuActionForItemFn: updateMenuActionForItemFn,
       listActionDisable: listActionDisable,
@@ -49,7 +48,6 @@ function ComponentController ($state, ServicesState, Language, ListView, Chargeb
       paginationUpdate: paginationUpdate,
       defaultFilterFields: defaultFilterFields,
       // Config setup
-      viewType: 'listView',
       cardConfig: getCardConfig(),
       listConfig: getListConfig(),
       listActions: getListActions(),
@@ -188,10 +186,6 @@ function ComponentController ($state, ServicesState, Language, ListView, Chargeb
 
   function pollUpdateServicesList () {
     resolveServices(vm.limit, vm.offset, true)
-  }
-
-  function viewSelected (viewId) {
-    vm.viewType = viewId
   }
 
   function serviceFilterConfig () {
