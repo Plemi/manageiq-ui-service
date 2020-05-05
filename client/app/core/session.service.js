@@ -3,12 +3,16 @@
 export function SessionFactory ($http, $sessionStorage, $cookies, RBAC, Polling) {
   const model = {
     token: null,
-    user: {}
+    user: {},
+    authMode: 'local' 
   }
+  const validAuthModes = ['local', 'oidc', 'saml']
 
   const service = {
     current: model,
     setAuthToken: setAuthToken,
+    setAuthMode: setAuthMode,
+    getAuthMode: getAuthMode,
     setGroup: setGroup,
     destroy: destroy,
     active: active,
@@ -29,6 +33,20 @@ export function SessionFactory ($http, $sessionStorage, $cookies, RBAC, Polling)
     model.token = token
     $http.defaults.headers.common['X-Auth-Token'] = model.token
     $sessionStorage.token = model.token
+  }
+
+  function setAuthMode (authMode) {
+    if (validAuthModes.indexOf(authMode) !== -1) {
+      model.authMode = authMode
+      $sessionStorage.authMode = model.authMode
+    }
+  }
+
+  function getAuthMode () {
+    if (validAuthModes.indexOf($sessionStorage.authMode) !== -1) {
+      model.authMode = $sessionStorage.authMode
+    }
+    return model.authMode
   }
 
   function setGroup (group) {
@@ -53,6 +71,7 @@ export function SessionFactory ($http, $sessionStorage, $cookies, RBAC, Polling)
   function destroy () {
     model.token = null
     model.user = {}
+    model.authMode = 'local' 
     destroyWsToken()
     delete $http.defaults.headers.common['X-Auth-Token']
     delete $sessionStorage.miqGroup
@@ -60,6 +79,7 @@ export function SessionFactory ($http, $sessionStorage, $cookies, RBAC, Polling)
     delete $sessionStorage.token
     delete $sessionStorage.user
     delete $sessionStorage.applianceInfo
+    delete $sessionStorage.authMode
   }
 
   function loadUser () {
